@@ -1,0 +1,37 @@
+box: wercker-labs/docker
+build:
+  steps:
+    - script:
+        name: install docker
+        code: curl -sSL https://get.docker.com/ubuntu/ | sudo sh
+    - script:
+        name: print system-wide docker info
+        code: |
+          docker version
+          docker info
+          docker images
+    - script:
+        name: build images
+        code: script/build
+    - script:
+        name: test the runtime image
+        code: script/test
+    - script:
+        name: tag the runtime image
+        code: script/tag
+    - zvelo/docker-save:
+        image: jumanjiman/tftp-hpa:${WERCKER_GIT_COMMIT:0:7}
+    - zvelo/docker-save:
+        image: jumanjiman/tftp-hpa:latest
+deploy:
+  steps:
+    - zvelo/docker-hub-push:
+        image: jumanjiman/tftp-hpa:${WERCKER_GIT_COMMIT:0:7}
+        email: ${email}
+        password: ${password}
+        username: jumanjiman
+    - zvelo/docker-hub-push:
+        image: jumanjiman/tftp-hpa:latest
+        email: ${email}
+        password: ${password}
+        username: jumanjiman

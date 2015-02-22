@@ -29,6 +29,21 @@ data containers or volumes an organization needs to bootstrap
 their infrastructure.
 
 
+Build integrity and docker tags
+-------------------------------
+
+An unattended test harness runs the build script and acceptance tests.
+If all tests pass on master branch in the unattended test harness,
+wercker pushes the built image to the Docker hub.
+
+The CI scripts on wercker apply two tags before pushing to docker hub:
+
+* `jumanjiman/tftp-hpa:latest`: latest successful build on master branch
+* `jumanjiman/tftp-hpa:<git-hash>`: a particular build on master branch
+
+Therefore you can `docker pull` a specific tag if you don't want *latest*.
+
+
 How-to
 ------
 
