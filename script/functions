@@ -1,0 +1,13 @@
+info() {
+  echo "[INFO] $@"
+}
+
+smitty() {
+  echo "[RUN] $@"
+  "$@"
+}
+
+err() {
+  echo "[ERROR] $@" >&2
+  exit 1
+}

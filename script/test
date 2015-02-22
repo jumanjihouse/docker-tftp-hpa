@@ -1,0 +1,56 @@
+#!/bin/sh
+set -e
+
+export PATH=$(pwd)/script:$PATH
+. script/functions
+
+echo
+echo "===> Clean up from previous test runs."
+sudo rm -f /tmp/menu
+sudo rm -f /tmp/pxelinux.0
+sudo rm -f /tmp/default
+sudo rm -f /tmp/F1.msg
+
+echo
+echo "===> Start a syslog server container."
+smitty docker run -d --name rsyslogd -v /tmp/syslogdev:/dev jumanjiman/rsyslog:latest
+
+echo
+echo "===> Show tftp-hpa build options."
+smitty docker run --rm -t tftp-hpa -V
+
+echo
+echo "===> Start server."
+smitty docker run -d -p 69:69/udp --volumes-from rsyslogd -v $(pwd)/fixtures:/tftpboot/site:ro --name tftpd tftp-hpa
+ip=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' tftpd | tr -d '\r')
+[ "x" = "x${ip}" ] && err "Is tftpd container running?"
+echo "Server is up at $ip"
+
+echo
+echo "===> Test that we can download files via tftp client."
+echo "---> /site/menu (fully-qualified, forward slashes)"
+smitty tftp -gr /site/menu $ip
+test -s /tmp/menu
+grep 'Sample pxe menu' /tmp/menu
+echo
+echo "---> \site\menu (fully-qualified, backslashes)"
+smitty tftp -gr \\site\\menu $ip
+test -s /tmp/menu
+grep 'Sample pxe menu' /tmp/menu
+echo
+echo "---> pxelinux.0"
+smitty tftp -gr /pxelinux.0 $ip
+test -s /tmp/pxelinux.0
+echo
+echo "---> pxelinux.cfg/default"
+smitty tftp -gr /pxelinux.cfg/default $ip
+test -s /tmp/default
+echo
+echo "---> pxelinux.cfg/F1.msg"
+smitty tftp -gr /pxelinux.cfg/F1.msg $ip
+test -s /tmp/F1.msg
+
+echo
+echo "===> Show server log."
+smitty docker logs tftpd
+smitty docker run --rm -t --volumes-from rsyslogd gliderlabs/alpine tail /var/log/messages

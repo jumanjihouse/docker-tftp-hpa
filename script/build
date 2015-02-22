@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+
+. script/functions
+
+echo
+echo "===> Build a tiny tftp server image."
+pushd src/
+smitty docker build --rm -t tftp-hpa .
+popd
+
+echo
+echo "===> Show image sizes."
+docker images | egrep 'tftp-hpa\b'
+
+
+echo
+echo "WARN: you should docker tag the image"
+echo

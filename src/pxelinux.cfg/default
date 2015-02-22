@@ -1,0 +1,22 @@
+serial 0 115200
+console 1
+prompt 1
+
+# Fetch a file via tftp and display it by default.
+display pxelinux.cfg/F1.msg
+
+# Fetch a file via tftp and display it if user presses F1.
+F1 pxelinux.cfg/F1.msg
+
+# If user fails to choose a boot option, choose this one.
+default safe
+
+# Proceed to default label if no keypress within 20 seconds.
+timeout 200
+
+# Proceed after 60 seconds in any condition.
+totaltimeout 600
+
+# Provide a safe default to boot locally.
+label safe
+  localboot 0

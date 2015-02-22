@@ -1,0 +1,23 @@
+#
+# Sample unit file for systemd.
+# Copy this file to /etc/systemd/system/tftp-hpa.service
+#
+[Unit]
+Description=tftp-hpa
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStartPre=/usr/sbin/modprobe nf_conntrack_tftp
+ExecStartPre=/usr/sbin/modprobe nf_nat_tftp
+ExecStartPre=/bin/bash -c '/usr/bin/docker inspect %n &> /dev/null && /usr/bin/docker rm %n || :'
+ExecStart=/usr/bin/docker run \
+  --name %n \
+  -p 69:69/udp \
+  jumanjiman/tftp-hpa:latest
+ExecStop=/usr/bin/docker stop %n
+RestartSec=5s
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
