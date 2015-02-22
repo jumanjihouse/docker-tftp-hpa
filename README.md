@@ -32,6 +32,8 @@ their infrastructure.
 Build integrity and docker tags
 -------------------------------
 
+[![wercker status](https://app.wercker.com/status/8a95d732a1cc8892996dc61938ee0056/s/master "wercker status")](https://app.wercker.com/project/bykey/8a95d732a1cc8892996dc61938ee0056)
+
 An unattended test harness runs the build script and acceptance tests.
 If all tests pass on master branch in the unattended test harness,
 wercker pushes the built image to the Docker hub.
