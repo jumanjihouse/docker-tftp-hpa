@@ -3,10 +3,10 @@ console 1
 prompt 1
 
 # Fetch a file via tftp and display it by default.
-display pxelinux.cfg/F1.msg
+display pxelinux.cfg/f1.msg
 
 # Fetch a file via tftp and display it if user presses F1.
-F1 pxelinux.cfg/F1.msg
+F1 pxelinux.cfg/f1.msg
 
 # If user fails to choose a boot option, choose this one.
 default safe

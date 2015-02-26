@@ -16,7 +16,7 @@ The image contains:
 * H. Peter Anvin's [tftp server](https://git.kernel.org/cgit/network/tftp/tftp-hpa.git/)
 * default, minimal configuration that you can easily override
 * syslinux files suitable for a PXE server
-* [map file](https://git.kernel.org/cgit/network/tftp/tftp-hpa.git/plain/tftpd/sample.rules)
+* [map file](src/mapfile)
   to rewrite certain request paths
 
 The runtime image is quite small (roughly 9 MB) since it is based on
@@ -79,7 +79,7 @@ Add helpers to track connections:
 
 The published image contains *just enough* files to provide
 a base tftpd to PXE-boot your hosts to a simple menu.
-The [simple menu](src/pxelinux.cfg/F1.msg) and
+The [simple menu](src/pxelinux.cfg/f1.msg) and
 [`pxelinux.cfg/default`](src/pxelinux.cfg/default)
 only allow to skip PXE.
 Therefore you probably want to override the built-in menu.

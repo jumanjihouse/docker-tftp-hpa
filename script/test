@@ -38,15 +38,15 @@ smitty tftp -gr \\site\\menu $ip
 test -s /tmp/menu
 grep 'Sample pxe menu' /tmp/menu
 echo
-echo "---> pxelinux.0"
-smitty tftp -gr /pxelinux.0 $ip
+echo "---> pxelinux.0 (not fully-qualified)"
+smitty tftp -gr pxelinux.0 $ip
 test -s /tmp/pxelinux.0
 echo
-echo "---> pxelinux.cfg/default"
+echo "---> /pxelinux.cfg/default"
 smitty tftp -gr /pxelinux.cfg/default $ip
 test -s /tmp/default
 echo
-echo "---> pxelinux.cfg/F1.msg"
+echo "---> pxelinux.cfg/F1.msg (should be downcased by map file)"
 smitty tftp -gr /pxelinux.cfg/F1.msg $ip
 test -s /tmp/F1.msg
 

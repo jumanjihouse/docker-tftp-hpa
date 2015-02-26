@@ -20,7 +20,7 @@ RUN apk-install --virtual sl_plus_deps syslinux=6.03-r0 && \
 COPY pxelinux.cfg /tftpboot/pxelinux.cfg/
 
 # Support clients that use backslash instead of forward slash.
-ADD https://git.kernel.org/cgit/network/tftp/tftp-hpa.git/plain/tftpd/sample.rules /tftpboot/rules/default
+COPY mapfile /tftpboot/
 
 # Do not track further change to /tftpboot.
 VOLUME /tftpboot
@@ -33,4 +33,4 @@ EXPOSE 69/udp
 RUN adduser -D tftp
 
 ENTRYPOINT ["in.tftpd"]
-CMD ["-L", "--verbose", "-m", "/tftpboot/rules/default", "-u", "tftp", "--secure", "/tftpboot"]
+CMD ["-L", "--verbose", "-m", "/tftpboot/mapfile", "-u", "tftp", "--secure", "/tftpboot"]
