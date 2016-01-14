@@ -1,6 +1,0 @@
-#!/bin/sh
-
-repo=${1:-jumanjiman}
-hash=$(git rev-parse --short HEAD)
-docker tag tftp-hpa ${repo}/tftp-hpa:${hash}
-docker tag tftp-hpa ${repo}/tftp-hpa:latest

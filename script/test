@@ -53,4 +53,4 @@ test -s /tmp/F1.msg
 echo
 echo "===> Show server log."
 smitty docker logs tftpd
-smitty docker run --rm -t --volumes-from rsyslogd gliderlabs/alpine tail /var/log/messages
+smitty docker logs rsyslogd
