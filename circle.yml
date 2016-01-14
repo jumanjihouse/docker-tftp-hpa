@@ -1,0 +1,30 @@
+# https://circleci.com/docs/docker
+machine:
+  environment:
+    TAG: $(date +%Y%m%dT%H%M)-git-${CIRCLE_SHA1:0:7}
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker info
+    - docker version
+    - ss -tulpn
+
+test:
+  override:
+    - script/build
+    - script/test
+
+# https://circleci.com/docs/configuration#deployment
+# https://circleci.com/docs/environment-variables
+deployment:
+  master:
+    branch: master
+    owner: jumanjihouse
+    commands:
+      - docker login -e ${mail} -u ${user} -p ${pass}
+      - docker tag jumanjiman/tftp-hpa jumanjiman/tftp-hpa:${TAG}
+      - docker push jumanjiman/tftp-hpa:${TAG}
+      - docker push jumanjiman/tftp-hpa:latest
+      - docker logout
