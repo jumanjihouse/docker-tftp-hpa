@@ -1,6 +1,11 @@
 tftp-hpa (tftpd) in a container
 ===============================
 
+[![Image Size](https://img.shields.io/imagelayers/image-size/jumanjiman/tftp-hpa/latest.svg)](https://imagelayers.io/?images=jumanjiman/tftp-hpa:latest 'View image size and layers')&nbsp;
+[![Image Layers](https://img.shields.io/imagelayers/layers/jumanjiman/tftp-hpa/latest.svg)](https://imagelayers.io/?images=jumanjiman/tftp-hpa:latest 'View image size and layers')&nbsp;
+[![Docker Registry](https://img.shields.io/docker/pulls/jumanjiman/tftp-hpa.svg)](https://registry.hub.docker.com/u/jumanjiman/tftp-hpa)&nbsp;
+[![Circle CI](https://circleci.com/gh/jumanjihouse/docker-tftp-hpa.png?circle-token=a96c1956a20bb93a08f94b755d845b2ba0e324b2)](https://circleci.com/gh/jumanjihouse/docker-tftp-hpa/tree/master 'View CI builds')
+
 Project URL: [https://github.com/jumanjihouse/docker-tftp-hpa](https://github.com/jumanjihouse/docker-tftp-hpa)
 
 Registry: [https://registry.hub.docker.com/u/jumanjiman/tftp-hpa/](https://registry.hub.docker.com/u/jumanjiman/tftp-hpa/)
@@ -32,13 +37,11 @@ their infrastructure.
 Build integrity and docker tags
 -------------------------------
 
-[![wercker status](https://app.wercker.com/status/8a95d732a1cc8892996dc61938ee0056/s/master "wercker status")](https://app.wercker.com/project/bykey/8a95d732a1cc8892996dc61938ee0056)
-
 An unattended test harness runs the build script and acceptance tests.
 If all tests pass on master branch in the unattended test harness,
-wercker pushes the built image to the Docker hub.
+circleci pushes the built image to the Docker hub.
 
-The CI scripts on wercker apply two tags before pushing to docker hub:
+The CI scripts on circleci apply two tags before pushing to docker hub:
 
 * `jumanjiman/tftp-hpa:latest`: latest successful build on master branch
 * `jumanjiman/tftp-hpa:<date>T<time>-git-<git-hash>`: a particular build on master branch
