@@ -36,3 +36,4 @@ deployment:
       - docker push jumanjiman/tftp-hpa:${TAG}
       - docker push jumanjiman/tftp-hpa:latest
       - docker logout
+      - curl -X POST 'https://hooks.microbadger.com/images/jumanjiman/tftp-hpa/U2HFgtW4uaY4oUTMxuzljwV-kZU='

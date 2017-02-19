@@ -1,8 +1,9 @@
 tftp-hpa (tftpd) in a container
 ===============================
 
-[![Image Size](https://img.shields.io/imagelayers/image-size/jumanjiman/tftp-hpa/latest.svg)](https://imagelayers.io/?images=jumanjiman/tftp-hpa:latest 'View image size and layers')&nbsp;
-[![Image Layers](https://img.shields.io/imagelayers/layers/jumanjiman/tftp-hpa/latest.svg)](https://imagelayers.io/?images=jumanjiman/tftp-hpa:latest 'View image size and layers')&nbsp;
+[![Download size](https://images.microbadger.com/badges/image/jumanjiman/tftp-hpa.svg)](http://microbadger.com/images/jumanjiman/tftp-hpa "View on microbadger.com")&nbsp;
+[![Version](https://images.microbadger.com/badges/version/jumanjiman/tftp-hpa.svg)](http://microbadger.com/images/jumanjiman/tftp-hpa "View on microbadger.com")&nbsp;
+[![Source code](https://images.microbadger.com/badges/commit/jumanjiman/tftp-hpa.svg)](http://microbadger.com/images/jumanjiman/tftp-hpa "View on microbadger.com")&nbsp;
 [![Docker Registry](https://img.shields.io/docker/pulls/jumanjiman/tftp-hpa.svg)](https://registry.hub.docker.com/u/jumanjiman/tftp-hpa)&nbsp;
 [![Circle CI](https://circleci.com/gh/jumanjihouse/docker-tftp-hpa.png?circle-token=a96c1956a20bb93a08f94b755d845b2ba0e324b2)](https://circleci.com/gh/jumanjihouse/docker-tftp-hpa/tree/master 'View CI builds')
 
