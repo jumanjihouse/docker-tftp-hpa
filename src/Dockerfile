@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.5
 
 # Publish the typical syslinux and pxelinux files at tftp root.
 # We only need one subtree of files from syslinux, and
@@ -11,7 +11,7 @@ FROM alpine:3.3
 #
 # NOTE: If you bump the syslinux version here,
 #       please also update the README.md.
-RUN apk add --no-cache --virtual sl_plus_deps syslinux=6.03-r2 && \
+RUN apk add --no-cache --virtual sl_plus_deps syslinux=6.04_pre1-r0 && \
     cp -r /usr/share/syslinux /tftpboot && \
     find /tftpboot -type f -exec chmod 0444 {} + && \
     apk del sl_plus_deps
