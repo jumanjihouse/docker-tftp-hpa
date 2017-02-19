@@ -5,9 +5,14 @@ set -e
 
 echo
 echo "===> Build a tiny tftp server image."
-pushd src/
-smitty docker build --rm -t tftp-hpa .
-popd
+smitty docker build \
+    --rm \
+    --build-arg CI_BUILD_URL=${CIRCLE_BUILD_URL} \
+    --build-arg BUILD_DATE=${BUILD_DATE} \
+    --build-arg VCS_REF=${VCS_REF} \
+    --build-arg VERSION=${VERSION} \
+    --tag tftp-hpa \
+    src/
 
 echo
 echo "===> Show image sizes."

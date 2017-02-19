@@ -1,5 +1,20 @@
 FROM alpine:3.5
 
+ARG CI_BUILD_URL
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+
+LABEL \
+    io.github.jumanjiman.ci-build-url=$CI_BUILD_URL \
+    io.github.jumanjiman.version=$VERSION \
+    io.github.jumanjiman.build-date=$BUILD_DATE \
+    io.github.jumanjiman.vcs-ref=$VCS_REF \
+    io.github.jumanjiman.license="MIT" \
+    io.github.jumanjiman.docker.dockerfile="/src/Dockerfile" \
+    io.github.jumanjiman.vcs-type="Git" \
+    io.github.jumanjiman.vcs-url="https://github.com/jumanjihouse/docker-tftp-hpa.git"
+
 # Publish the typical syslinux and pxelinux files at tftp root.
 # We only need one subtree of files from syslinux, and
 # we don't need its dependencies, so...
@@ -11,7 +26,7 @@ FROM alpine:3.5
 #
 # NOTE: If you bump the syslinux version here,
 #       please also update the README.md.
-RUN apk add --no-cache --virtual sl_plus_deps syslinux=6.04_pre1-r0 && \
+RUN apk add --no-cache --virtual sl_plus_deps syslinux=${VERSION} && \
     cp -r /usr/share/syslinux /tftpboot && \
     find /tftpboot -type f -exec chmod 0444 {} + && \
     apk del sl_plus_deps
