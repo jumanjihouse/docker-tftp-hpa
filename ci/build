@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e
+
+cat > ci/vars <<EOF
+  VERSION=6.04_pre1-r0
+  BUILD_DATE=$(date +%Y%m%dT%H%M)
+  VCS_REF=${CIRCLE_SHA1:0:7}
+  TAG=\${VERSION}-\${BUILD_DATE}-git-\${VCS_REF}
+
+  export VERSION
+  export BUILD_DATE
+  export VCS_REF
+
+  CI_BUILD_URL=${CIRCLE_BUILD_URL:-unknown}
+  export CI_BUILD_URL
+EOF
+
+. ci/vars
+. ci/functions
+
+echo
+echo "===> Build a tiny tftp server image."
+smitty docker-compose build tftp-hpa
+
+echo
+echo "===> Show image sizes."
+docker images | egrep 'tftp-hpa\b'
+
+
+echo
+echo "WARN: you should docker tag the image"
+echo
