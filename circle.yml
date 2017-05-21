@@ -20,8 +20,8 @@ dependencies:
 
 test:
   override:
-    - script/build
-    - script/test
+    - ci/build
+    - ci/test
 
 # https://circleci.com/docs/configuration#deployment
 # https://circleci.com/docs/environment-variables

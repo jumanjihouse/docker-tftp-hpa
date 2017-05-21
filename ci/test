@@ -2,7 +2,7 @@
 set -e
 
 export PATH=$(pwd)/script:$PATH
-. script/functions
+. ci/functions
 
 echo
 echo "===> Clean up from previous test runs."
