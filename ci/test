@@ -1,19 +1,19 @@
 #!/bin/sh
 set -e
 
-export PATH=$(pwd)/script:$PATH
+. ci/vars
 . ci/functions
 
 echo
 echo "===> Clean up from previous test runs."
-sudo rm -f /tmp/menu
-sudo rm -f /tmp/pxelinux.0
-sudo rm -f /tmp/default
-sudo rm -f /tmp/F1.msg
+rm -f /tmp/pxelinux.0
+rm -f /tmp/default1
+rm -f /tmp/default2
+rm -f /tmp/F1.msg
 
 echo
 echo "===> Start a syslog server container."
-smitty docker run -d --name rsyslogd -v /tmp/syslogdev:/dev jumanjiman/rsyslog:latest
+smitty docker-compose up -d rsyslogd
 
 echo
 echo "===> Show tftp-hpa build options."
@@ -21,36 +21,23 @@ smitty docker run --rm -t tftp-hpa -V
 
 echo
 echo "===> Start server."
-smitty docker run -d -p 69:69/udp --volumes-from rsyslogd -v $(pwd)/fixtures:/tftpboot/site:ro --name tftpd tftp-hpa
-ip=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' tftpd | tr -d '\r')
-[ "x" = "x${ip}" ] && err "Is tftpd container running?"
-echo "Server is up at $ip"
+smitty docker-compose up -d tftp-hpa
 
 echo
 echo "===> Test that we can download files via tftp client."
-echo "---> /site/menu (fully-qualified, forward slashes)"
-smitty tftp -gr /site/menu $ip
-test -s /tmp/menu
-grep 'Sample pxe menu' /tmp/menu
+echo "---> /pxelinux.cfg/default (fully-qualified)"
+smitty docker-compose run --rm tftp tftp -gr /pxelinux.cfg/default 192.168.254.253
 echo
-echo "---> \site\menu (fully-qualified, backslashes)"
-smitty tftp -gr \\site\\menu $ip
-test -s /tmp/menu
-grep 'Sample pxe menu' /tmp/menu
+echo "---> \\pxelinux.cfg\\default (fully-qualified, backslashes)"
+smitty docker-compose run --rm tftp tftp -gr \\pxelinux.cfg\\default 192.168.254.253
 echo
 echo "---> pxelinux.0 (not fully-qualified)"
-smitty tftp -gr pxelinux.0 $ip
-test -s /tmp/pxelinux.0
-echo
-echo "---> /pxelinux.cfg/default"
-smitty tftp -gr /pxelinux.cfg/default $ip
-test -s /tmp/default
+smitty docker-compose run --rm tftp tftp -gr pxelinux.0 192.168.254.253
 echo
 echo "---> pxelinux.cfg/F1.msg (should be downcased by map file)"
-smitty tftp -gr /pxelinux.cfg/F1.msg $ip
-test -s /tmp/F1.msg
+smitty docker-compose run --rm tftp tftp -gr /pxelinux.cfg/F1.msg 192.168.254.253
 
 echo
 echo "===> Show server log."
-smitty docker logs tftpd
-smitty docker logs rsyslogd
+smitty docker-compose logs tftp-hpa
+smitty docker-compose logs rsyslogd

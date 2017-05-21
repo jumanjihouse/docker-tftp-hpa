@@ -20,14 +20,7 @@ EOF
 
 echo
 echo "===> Build a tiny tftp server image."
-smitty docker build \
-    --rm \
-    --build-arg CI_BUILD_URL=${CIRCLE_BUILD_URL} \
-    --build-arg BUILD_DATE=${BUILD_DATE} \
-    --build-arg VCS_REF=${VCS_REF} \
-    --build-arg VERSION=${VERSION} \
-    --tag tftp-hpa \
-    src/
+smitty docker-compose build tftp-hpa
 
 echo
 echo "===> Show image sizes."

@@ -1,0 +1,52 @@
+version: '2.1'
+
+networks:
+  testnet:
+    driver: bridge
+    enable_ipv6: false
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.254.0/24
+          gateway: 192.168.254.1
+
+services:
+  tftp-hpa:
+    image: tftp-hpa
+    build:
+      context: src/
+      args:
+        CI_BUILD_URL: ${CIRCLE_BUILD_URL}
+        BUILD_DATE:   ${BUILD_DATE}
+        VCS_REF:      ${VCS_REF}
+        VERSION:      ${VERSION}
+    volumes_from:
+      - rsyslogd
+    networks:
+      testnet:
+        ipv4_address: 192.168.254.253
+    pids_limit: 10
+    cpu_shares: 1023
+    mem_limit: 100m
+    shm_size: 32m
+    stdin_open: true
+    tty: true
+
+  rsyslogd:
+    image: jumanjiman/rsyslog
+    networks:
+      testnet:
+        ipv4_address: 192.168.254.252
+    cap_drop:
+      - all
+    pids_limit: 10
+    cpu_shares: 1023
+    mem_limit: 100m
+    shm_size: 32m
+    stdin_open: true
+    tty: true
+
+  tftp:
+    image: alpine:3.5
+    networks:
+      testnet:
