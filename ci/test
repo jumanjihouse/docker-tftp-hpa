@@ -41,3 +41,7 @@ echo
 echo "===> Test that logs are meaningful."
 smitty docker-compose logs rsyslogd | tee /tmp/logs.out
 grep 'RRQ from 192.168.254.* filename pxelinux.0 remapped to' /tmp/logs.out
+
+echo
+echo "===> Shut down."
+smitty docker-compose down
