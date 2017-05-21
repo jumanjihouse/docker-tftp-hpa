@@ -1,10 +1,5 @@
 # https://circleci.com/docs/docker
 machine:
-  environment:
-    VERSION: 6.04_pre1-r0
-    BUILD_DATE: $(date +%Y%m%dT%H%M)
-    VCS_REF: ${CIRCLE_SHA1:0:7}
-    TAG: ${VERSION}-${BUILD_DATE}-git-${VCS_REF}
   services:
     - docker
   pre:
@@ -30,10 +25,4 @@ deployment:
     branch: master
     owner: jumanjihouse
     commands:
-      - docker login -e ${mail} -u ${user} -p ${pass}
-      - docker tag tftp-hpa jumanjiman/tftp-hpa:${TAG}
-      - docker tag tftp-hpa jumanjiman/tftp-hpa:latest
-      - docker push jumanjiman/tftp-hpa:${TAG}
-      - docker push jumanjiman/tftp-hpa:latest
-      - docker logout
-      - curl -X POST 'https://hooks.microbadger.com/images/jumanjiman/tftp-hpa/U2HFgtW4uaY4oUTMxuzljwV-kZU='
+      - ci/publish
