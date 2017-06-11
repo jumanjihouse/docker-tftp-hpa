@@ -47,6 +47,6 @@ services:
     tty: true
 
   tftp:
-    image: alpine:3.5
+    image: alpine:3.6
     networks:
       testnet:
