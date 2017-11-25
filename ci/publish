@@ -1,10 +1,21 @@
-#!/bin/sh
+#!/bin/bash
+set -e
+set -u
+set -o pipefail
+
+################################################################################
+# Publish image(s). Invoke as "ci/publish".
+################################################################################
 
 . ci/vars
-docker login -e ${mail} -u ${user} -p ${pass}
-docker tag tftp-hpa jumanjiman/tftp-hpa:${TAG}
+. ci/functions.sh
+
+# shellcheck disable=SC2154
+docker login -e "${mail}" -u "${user}" -p "${pass}"
+docker tag tftp-hpa jumanjiman/tftp-hpa:"${TAG}"
 docker tag tftp-hpa jumanjiman/tftp-hpa:latest
-docker push jumanjiman/tftp-hpa:${TAG}
+docker push jumanjiman/tftp-hpa:"${TAG}"
 docker push jumanjiman/tftp-hpa:latest
 docker logout
 curl -X POST 'https://hooks.microbadger.com/images/jumanjiman/tftp-hpa/U2HFgtW4uaY4oUTMxuzljwV-kZU='
+echo

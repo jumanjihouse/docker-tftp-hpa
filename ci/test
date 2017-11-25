@@ -1,8 +1,18 @@
-#!/bin/sh
+#!/bin/bash
 set -e
+set -u
+set -o pipefail
+
+################################################################################
+# Run the test harness. Invoke as "ci/test".
+################################################################################
 
 . ci/vars
-. ci/functions
+. ci/functions.sh
+
+echo
+echo "===> Check for things like trailing whitespace."
+ci/check-files -d
 
 echo
 echo "===> Clean up from previous test runs."

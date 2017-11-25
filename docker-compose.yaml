@@ -19,7 +19,7 @@ services:
         CI_BUILD_URL: ${CIRCLE_BUILD_URL}
         BUILD_DATE:   ${BUILD_DATE}
         VCS_REF:      ${VCS_REF}
-        VERSION:      ${VERSION}
+        APP_VERSION:  ${APP_VERSION}
     volumes_from:
       - rsyslogd
     networks:

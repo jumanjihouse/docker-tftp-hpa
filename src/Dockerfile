@@ -3,11 +3,11 @@ FROM alpine:3.6
 ARG CI_BUILD_URL
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION
+ARG APP_VERSION
 
 LABEL \
     io.github.jumanjiman.ci-build-url=$CI_BUILD_URL \
-    io.github.jumanjiman.version=$VERSION \
+    io.github.jumanjiman.version=$APP_VERSION \
     io.github.jumanjiman.build-date=$BUILD_DATE \
     io.github.jumanjiman.vcs-ref=$VCS_REF \
     io.github.jumanjiman.license="MIT" \
@@ -26,7 +26,7 @@ LABEL \
 #
 # NOTE: If you bump the syslinux version here,
 #       please also update the README.md.
-RUN apk add --no-cache --virtual sl_plus_deps syslinux=${VERSION} && \
+RUN apk add --no-cache --virtual sl_plus_deps syslinux=${APP_VERSION} && \
     cp -r /usr/share/syslinux /tftpboot && \
     find /tftpboot -type f -exec chmod 0444 {} + && \
     apk del sl_plus_deps
