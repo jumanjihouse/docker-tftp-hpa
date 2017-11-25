@@ -11,7 +11,7 @@ set -o pipefail
 . ci/functions.sh
 
 # shellcheck disable=SC2154
-docker login -e "${mail}" -u "${user}" -p "${pass}"
+docker login -u "${user}" -p "${pass}"
 docker tag tftp-hpa jumanjiman/tftp-hpa:"${TAG}"
 docker tag tftp-hpa jumanjiman/tftp-hpa:latest
 docker push jumanjiman/tftp-hpa:"${TAG}"
