@@ -1,22 +1,22 @@
 #!/bin/bash
 set -e
+set -u
+set -o pipefail
+
+################################################################################
+# Build image(s). Invoke as "ci/build".
+################################################################################
 
 cat > ci/vars <<EOF
-  VERSION=6.04_pre1-r1
-  BUILD_DATE=$(date +%Y%m%dT%H%M)
-  VCS_REF=${CIRCLE_SHA1:0:7}
-  TAG=\${VERSION}-\${BUILD_DATE}-git-\${VCS_REF}
-
-  export VERSION
-  export BUILD_DATE
-  export VCS_REF
-
-  CI_BUILD_URL=${CIRCLE_BUILD_URL:-unknown}
-  export CI_BUILD_URL
+declare -rx APP_VERSION=6.04_pre1-r1
+declare -rx BUILD_DATE=$(date +%Y%m%dT%H%M)
+declare -rx VCS_REF=$(git rev-parse --short HEAD)
+declare -rx TAG=\${APP_VERSION}-\${BUILD_DATE}-git-\${VCS_REF}
+declare -rx CI_BUILD_URL=${CIRCLE_BUILD_URL:-unknown}
 EOF
 
 . ci/vars
-. ci/functions
+. ci/functions.sh
 
 echo
 echo "===> Build a tiny tftp server image."
@@ -24,7 +24,7 @@ smitty docker-compose build tftp-hpa
 
 echo
 echo "===> Show image sizes."
-docker images | egrep 'tftp-hpa\b'
+docker images | grep -E 'tftp-hpa\b'
 
 
 echo

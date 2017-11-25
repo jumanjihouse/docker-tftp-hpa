@@ -19,7 +19,7 @@ services:
         CI_BUILD_URL: ${CIRCLE_BUILD_URL}
         BUILD_DATE:   ${BUILD_DATE}
         VCS_REF:      ${VCS_REF}
-        VERSION:      ${VERSION}
+        APP_VERSION:  ${APP_VERSION}
     volumes_from:
       - rsyslogd
     networks:
@@ -39,7 +39,9 @@ services:
         ipv4_address: 192.168.254.252
     cap_drop:
       - all
-    pids_limit: 10
+    cap_add:
+      - net_bind_service
+    pids_limit: 20
     cpu_shares: 1023
     mem_limit: 100m
     shm_size: 32m

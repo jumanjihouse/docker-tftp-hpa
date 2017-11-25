@@ -4,4 +4,4 @@
 # volumes-from https://github.com/jumanjihouse/docker-rsyslog
 ln -sf /var/run/rsyslog/dev/log /dev/log
 
-exec in.tftpd $@
+exec in.tftpd "$@"
