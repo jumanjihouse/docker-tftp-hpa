@@ -25,11 +25,11 @@
 #
 # "#" begins a comment, unless \-escaped
 #
-ri	^[a-z]:				# Remove "drive letters"
-rg	\\		/		# Convert backslashes to slashes
-rg	([A-Z])		\L\1            # Convert uppercase to lowercase
-rg	\#		@		# Convert hash marks to @ signs
-rg	/../		/..no../	# Convert /../ to /..no../
-e	^ok/				# These are always ok
-r	^[^/]		/\0	        # Convert non-absolute files
-a	\.pvt$				# Reject requests for private files
+ri    ^[a-z]:            # Remove "drive letters"
+rg    \\        /        # Convert backslashes to slashes
+rg    ([A-Z])   \L\1     # Convert uppercase to lowercase
+rg    \#        @        # Convert hash marks to @ signs
+rg    /../      /..no../ # Convert /../ to /..no../
+e    ^ok/                # These are always ok
+r    ^[^/]      /\0      # Convert non-absolute files
+a    \.pvt$              # Reject requests for private files
