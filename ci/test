@@ -7,12 +7,13 @@ set -o pipefail
 # Run the test harness. Invoke as "ci/test".
 ################################################################################
 
+. ci/bootstrap
 . ci/vars
 . ci/functions.sh
 
 echo
-echo "===> Check for things like trailing whitespace."
-ci/check-files -d
+echo "===> Run various file checks."
+pre-commit run --all-files --verbose
 
 echo
 echo "===> Clean up from previous test runs."
