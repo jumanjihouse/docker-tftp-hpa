@@ -11,48 +11,37 @@ set -o pipefail
 . ci/vars
 . ci/functions.sh
 
-echo
-echo "===> Run various file checks."
-pre-commit run --all-files --verbose
+info "Run various file checks."
+run pre-commit run --all-files --verbose --hook-stage manual
 
-echo
-echo "===> Clean up from previous test runs."
+info "Clean up from previous test runs."
 rm -f /tmp/pxelinux.0
 rm -f /tmp/default1
 rm -f /tmp/default2
 rm -f /tmp/F1.msg
 
-echo
-echo "===> Start a syslog server container."
-smitty docker-compose up -d rsyslogd
+info "Start a syslog server container."
+run docker-compose up -d rsyslogd
 
-echo
-echo "===> Show tftp-hpa build options."
-smitty docker run --rm -t tftp-hpa -V
+info "Show tftp-hpa build options."
+run docker run --rm -t tftp-hpa -V
 
-echo
-echo "===> Start server."
-smitty docker-compose up -d tftp-hpa
+info "Start server."
+run docker-compose up -d tftp-hpa
 
-echo
-echo "===> Test that we can download files via tftp client."
-echo "---> /pxelinux.cfg/default (fully-qualified)"
-smitty docker-compose run --rm tftp tftp -gr /pxelinux.cfg/default 192.168.254.253
-echo
-echo "---> \\pxelinux.cfg\\default (fully-qualified, backslashes)"
-smitty docker-compose run --rm tftp tftp -gr \\pxelinux.cfg\\default 192.168.254.253
-echo
-echo "---> pxelinux.0 (not fully-qualified)"
-smitty docker-compose run --rm tftp tftp -gr pxelinux.0 192.168.254.253
-echo
-echo "---> pxelinux.cfg/F1.msg (should be downcased by map file)"
-smitty docker-compose run --rm tftp tftp -gr /pxelinux.cfg/F1.msg 192.168.254.253
+info "Test that we can download files via tftp client."
+info "... /pxelinux.cfg/default (fully-qualified)"
+run docker-compose run --rm tftp tftp -gr /pxelinux.cfg/default 192.168.254.253
+info "... \\pxelinux.cfg\\default (fully-qualified, backslashes)"
+run docker-compose run --rm tftp tftp -gr \\pxelinux.cfg\\default 192.168.254.253
+info "... pxelinux.0 (not fully-qualified)"
+run docker-compose run --rm tftp tftp -gr pxelinux.0 192.168.254.253
+info "... pxelinux.cfg/F1.msg (should be downcased by map file)"
+run docker-compose run --rm tftp tftp -gr /pxelinux.cfg/F1.msg 192.168.254.253
 
-echo
-echo "===> Test that logs are meaningful."
-smitty docker-compose logs rsyslogd | tee /tmp/logs.out
+info "Test that logs are meaningful."
+run docker-compose logs rsyslogd | tee /tmp/logs.out
 grep 'RRQ from 192.168.254.* filename pxelinux.0 remapped to' /tmp/logs.out
 
-echo
-echo "===> Shut down."
-smitty docker-compose down
+info "Shut down."
+run docker-compose down

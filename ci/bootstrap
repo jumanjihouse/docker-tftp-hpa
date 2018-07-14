@@ -6,20 +6,13 @@ set -o pipefail
 # Run "ci/bootstrap" to install dependencies for the test harness.
 ################################################################################
 
+. ci/functions.sh
+
 main() {
   setup_python_path
   install_precommit
-}
-
-trap finish EXIT
-
-finish() {
-  declare -ri RC=$?
-  if [[ ${RC} -eq 0 ]]; then
-    echo "$0 OK" >&2
-  else
-    echo "[ERROR] $0" >&2
-  fi
+  add_upstream_git_remote
+  fetch_upstream
 }
 
 setup_python_path() {
@@ -32,10 +25,20 @@ setup_python_path() {
 }
 
 install_precommit() {
-  if ! command -v pre-commit &> /dev/null; then
+  if ! command -v pre-commit &>/dev/null; then
     # Install for just this user. Does not need root.
     pip install --user -Iv --compile --no-cache-dir pre-commit
   fi
+}
+
+add_upstream_git_remote() {
+  if ! git remote show upstream &>/dev/null; then
+    git remote add upstream https://github.com/jumanjihouse/docker-tftp-hpa.git
+  fi
+}
+
+fetch_upstream() {
+  git fetch upstream
 }
 
 main
