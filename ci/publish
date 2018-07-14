@@ -12,10 +12,10 @@ set -o pipefail
 
 # shellcheck disable=SC2154
 docker login -u "${user}" -p "${pass}"
-docker tag tftp-hpa jumanjiman/tftp-hpa:"${TAG}"
-docker tag tftp-hpa jumanjiman/tftp-hpa:latest
-docker push jumanjiman/tftp-hpa:"${TAG}"
-docker push jumanjiman/tftp-hpa:latest
+run docker tag tftp-hpa jumanjiman/tftp-hpa:"${TAG}"
+run docker tag tftp-hpa jumanjiman/tftp-hpa:latest
+run docker push jumanjiman/tftp-hpa:"${TAG}"
+run docker push jumanjiman/tftp-hpa:latest
 docker logout
-curl -X POST 'https://hooks.microbadger.com/images/jumanjiman/tftp-hpa/U2HFgtW4uaY4oUTMxuzljwV-kZU='
+run curl -X POST 'https://hooks.microbadger.com/images/jumanjiman/tftp-hpa/U2HFgtW4uaY4oUTMxuzljwV-kZU='
 echo

@@ -18,14 +18,10 @@ EOF
 . ci/vars
 . ci/functions.sh
 
-echo
-echo "===> Build a tiny tftp server image."
+info "Build a tiny tftp server image."
 run docker-compose build tftp-hpa
 
-echo
-echo "===> Show image sizes."
+info "Show image sizes."
 docker images | grep -E 'tftp-hpa\b'
 
-echo
-echo "WARN: you should docker tag the image"
-echo
+warn "Remember to docker tag the image."
