@@ -7,10 +7,10 @@
 # Defaults.
 declare -i VERBOSITY=${VERBOSITY:-1}
 
-smitty() {
+run() {
   echo
   echo
-  echo "SMITTY: $*"
+  echo "RUN: $*"
   "$@"
 }
 

@@ -20,7 +20,7 @@ EOF
 
 echo
 echo "===> Build a tiny tftp server image."
-smitty docker-compose build tftp-hpa
+run docker-compose build tftp-hpa
 
 echo
 echo "===> Show image sizes."
