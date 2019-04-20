@@ -15,7 +15,7 @@ run() {
 }
 
 err() {
-  ansi --red-intense --newline "[ERROR] $*"
+  ansi --bold --red --newline "[ERROR] $*"
 }
 
 info() {
@@ -23,7 +23,7 @@ info() {
 }
 
 pass() {
-  ansi --green-intense --newline "[PASS] $*"
+  ansi --bold --green --newline "[PASS] $*"
   echo
 }
 
