@@ -45,8 +45,9 @@ services:
     tty: true
 
   tftp:
-    # Pin to 3.6 for now since tftp client is not default as of 3.7
-    image: alpine:3.6
+    image: client
+    build:
+      context: client/
     networks:
       testnet:
 
