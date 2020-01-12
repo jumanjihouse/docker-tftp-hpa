@@ -16,11 +16,6 @@ services:
     image: tftp-hpa
     build:
       context: src/
-      args:
-        CI_BUILD_URL: ${CIRCLE_BUILD_URL}
-        BUILD_DATE:   ${BUILD_DATE}
-        VCS_REF:      ${VCS_REF}
-        APP_VERSION:  ${APP_VERSION}
     volumes_from:
       - rsyslogd
     networks:
@@ -54,3 +49,11 @@ services:
     image: alpine:3.6
     networks:
       testnet:
+
+  version:
+    image: tftp-hpa
+    entrypoint:
+      - sh
+    command:
+      - -c
+      - "apk policy tftp-hpa 2>/dev/null | tail -n +2 | head -1 | tr -d ' :'"

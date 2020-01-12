@@ -6,16 +6,6 @@ set -o pipefail
 ################################################################################
 # Build image(s). Invoke as "ci/build".
 ################################################################################
-
-cat >ci/vars <<EOF
-declare -rx APP_VERSION=6.04_pre1-r2
-declare -rx BUILD_DATE=$(date +%Y%m%dT%H%M)
-declare -rx VCS_REF=$(git rev-parse --short HEAD)
-declare -rx TAG=\${APP_VERSION}-\${BUILD_DATE}-git-\${VCS_REF}
-declare -rx CI_BUILD_URL=${CIRCLE_BUILD_URL:-unknown}
-EOF
-
-. ci/vars
 . ci/functions.sh
 
 info "Build a tiny tftp server image."
@@ -24,4 +14,4 @@ run docker-compose build tftp-hpa
 info "Show image sizes."
 docker images | grep -E 'tftp-hpa\b'
 
-warn "Remember to docker tag the image."
+warn "Run ci/tag to tag the image."

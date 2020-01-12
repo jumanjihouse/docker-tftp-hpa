@@ -34,6 +34,9 @@ image that contains *just enough* to combine with custom-built
 data containers or volumes an organization needs to bootstrap
 their infrastructure.
 
+:warning: The version of the image is tied to the version of tftp-hpa
+as of 2020-January. Previously the version was tied to syslinux.
+
 
 Build integrity and docker tags
 -------------------------------
