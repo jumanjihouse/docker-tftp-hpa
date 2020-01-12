@@ -16,11 +16,6 @@ services:
     image: tftp-hpa
     build:
       context: src/
-      args:
-        CI_BUILD_URL: ${CIRCLE_BUILD_URL}
-        BUILD_DATE:   ${BUILD_DATE}
-        VCS_REF:      ${VCS_REF}
-        APP_VERSION:  ${APP_VERSION}
     volumes_from:
       - rsyslogd
     networks:
@@ -50,7 +45,16 @@ services:
     tty: true
 
   tftp:
-    # Pin to 3.6 for now since tftp client is not default as of 3.7
-    image: alpine:3.6
+    image: client
+    build:
+      context: client/
     networks:
       testnet:
+
+  version:
+    image: tftp-hpa
+    entrypoint:
+      - sh
+    command:
+      - -c
+      - "apk policy tftp-hpa 2>/dev/null | tail -n +2 | head -1 | tr -d ' :'"

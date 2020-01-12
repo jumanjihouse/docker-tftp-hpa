@@ -6,3 +6,6 @@ rules:
   colons:
     ignore: |
       /docker-compose.yaml
+  line-length:
+    ignore: |
+      docker-compose-metadata.yaml

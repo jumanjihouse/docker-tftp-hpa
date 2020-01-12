@@ -25,10 +25,16 @@ setup_python_path() {
 }
 
 install_precommit() {
-  if ! command -v pre-commit &>/dev/null; then
-    # Install for just this user. Does not need root.
-    pip install --user -Iv --compile --no-cache-dir pre-commit
-  fi
+  # Install for just this user. Does not need root.
+  run pip install \
+    --compile \
+    --disable-pip-version-check \
+    --quiet \
+    --user \
+    --verbose \
+    -r ci/requirements.txt
+
+  run pre-commit install-hooks
 }
 
 add_upstream_git_remote() {
