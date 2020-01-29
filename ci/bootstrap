@@ -16,7 +16,12 @@ main() {
 }
 
 setup_python_path() {
-  python_path="$(python -c "import site; print(site.USER_BASE)")"
+  if command -v python3 &>/dev/null; then
+    python="python3"
+  else
+    python="python"
+  fi
+  python_path="$(${python} -c "import site; print(site.USER_BASE)")"
   readonly python_path
 
   if ! grep -q "${python_path}/bin" <(env | grep PATH); then
@@ -25,8 +30,14 @@ setup_python_path() {
 }
 
 install_precommit() {
+  if command -v pip3 &>/dev/null; then
+    pip="pip3"
+  else
+    pip="pip"
+  fi
+
   # Install for just this user. Does not need root.
-  run pip install \
+  "${pip}" install \
     --compile \
     --disable-pip-version-check \
     --quiet \
