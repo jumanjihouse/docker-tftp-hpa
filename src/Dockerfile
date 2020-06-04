@@ -1,4 +1,4 @@
-FROM alpine:3.11.6
+FROM alpine:3.12.0
 
 # Publish the typical syslinux and pxelinux files at tftp root.
 # We only need one subtree of files from syslinux, and
