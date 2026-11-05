@@ -4,5 +4,5 @@
 #
 # As of alpine:3.7, tftp client is in busybox-extras.
 ############################################################
-FROM alpine:3.12.0
+FROM alpine:3.24.4
 RUN apk add --no-cache busybox-extras
